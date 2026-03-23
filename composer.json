@@ -16,12 +16,6 @@
 		},
 		"sort-packages": true
 	},
-	"require-dev": {
-		"pronamic/wp-coding-standards": "^2.3"
-	},
-	"scripts": {
-		"test": "bin/wptdr --dir=tests --search=old --search=older --search=block-development-examples --replace=new --exclude=exclude"
-	},
 	"extra": {
 		"solvebeam-wp-text-domain-replacer": {
 			"dir": "tests",
@@ -35,5 +29,11 @@
 				"exclude"
 			]
 		}
+	},
+	"require-dev": {
+		"pronamic/wp-coding-standards": "^2.3"
+	},
+	"scripts": {
+		"test": "bin/wptdr --dir=tests --search=old --search=older --search=block-development-examples --replace=new --exclude=exclude"
 	}
 }
