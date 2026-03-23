@@ -73,7 +73,7 @@ This will scan your `src` directory for any occurrence of the text domain `old_d
 
 #### `--dir=DIRECTORY`
 
-Specifies the directory to scan for text domain replacements. Defaults to current directory if not provided.
+Specifies the directory to scan for text domain replacements. Defaults to the current working directory if not provided.
 
 **Example:** `--dir=src` or `--dir=.`
 

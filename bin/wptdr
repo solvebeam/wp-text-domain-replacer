@@ -24,7 +24,7 @@ if ( file_exists( $composer_file ) ) {
 }
 
 // Start with composer.json values.
-$dir     = $composer_config['dir'] ?? __DIR__;
+$dir     = $composer_config['dir'] ?? getcwd();
 $exclude = $composer_config['exclude'] ?? [];
 $search  = $composer_config['search'] ?? null;
 $replace = $composer_config['replace'] ?? null;
