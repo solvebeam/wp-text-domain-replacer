@@ -10,3 +10,5 @@ __( 'Test 4', 'older' );
 load_plugin_textdomain( 'old', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 load_plugin_textdomain( 'old', false );
 load_plugin_textdomain( 'old' );
+
+\esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis metus a nulla malesuada, id rutrum tellus pretium. Mauris ultricies dictum sagittis. Donec nec dui vel felis malesuada rhoncus nec.', 'old' );
