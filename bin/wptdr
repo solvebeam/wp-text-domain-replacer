@@ -351,7 +351,10 @@ foreach ( $php_files as $file ) {
 
 	$old_tokens = $parser->getTokens();
 
-	$traverser = new PhpParser\NodeTraverser( new PhpParser\NodeVisitor\CloningVisitor() );
+	$traverser = new PhpParser\NodeTraverser(
+		new PhpParser\NodeVisitor\CloningVisitor(),
+		new PhpParser\NodeVisitor\NameResolver( null, [ 'replaceNodes' => false ] )
+	);
 	$new_stmts = $traverser->traverse( $old_stmts );
 
 	$modifier = new PhpParser\NodeTraverser();
@@ -407,7 +410,16 @@ foreach ( $php_files as $file ) {
 					return;
 				}
 
-				$func_name = $node->name->toLowerString();
+				// Use the resolved name from the NameResolver visitor.
+				// Unqualified function names in a namespace cannot be statically
+				// resolved and will not have a resolvedName attribute.
+				$resolved_name = $node->name->getAttribute( 'resolvedName' );
+
+				if ( ! $resolved_name instanceof PhpParser\Node\Name ) {
+					return;
+				}
+
+				$func_name = $resolved_name->toLowerString();
 
 				if ( ! isset( $this->functions[ $func_name ] ) ) {
 					return;
