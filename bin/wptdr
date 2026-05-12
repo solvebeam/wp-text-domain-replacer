@@ -168,9 +168,11 @@ foreach ( $block_json_files as $file ) {
 	);
 
 	if ( $replaced !== $contents ) {
-		file_put_contents( $file, $replaced );
+		$output_path = get_output_path( $file, $dir, $output );
 
-		echo "[SUCCESS] Text domain replaced in: ", $file->getPathname(), PHP_EOL;
+		file_put_contents( $output_path, $replaced );
+
+		echo "[SUCCESS] Text domain replaced in: ", $output_path, PHP_EOL;
 	} else {
 		echo "[SKIP] No replacement needed for: ", $file->getPathname(), PHP_EOL;
 	}
@@ -429,9 +431,11 @@ foreach ( $php_files as $file ) {
 	$new_code  = $printer->printFormatPreserving( $new_stmts, $old_stmts, $old_tokens );
 
 	if ( $new_code !== $original ) {
-		file_put_contents( $file, $new_code );
+		$output_path = get_output_path( $file, $dir, $output );
 
-		echo "[SUCCESS] Text domain replaced in: ", $file->getPathname(), PHP_EOL;
+		file_put_contents( $output_path, $new_code );
+
+		echo "[SUCCESS] Text domain replaced in: ", $output_path, PHP_EOL;
 	} else {
 		echo "[SKIP] No replacement needed for: ", $file->getPathname(), PHP_EOL;
 	}
@@ -540,9 +544,11 @@ foreach ( $js_files as $file ) {
 	}
 
 	if ( $contents !== $original ) {
-		file_put_contents( $file, $contents );
+		$output_path = get_output_path( $file, $dir, $output );
 
-		echo "[SUCCESS] Text domain replaced in: ", $file->getPathname(), PHP_EOL;
+		file_put_contents( $output_path, $contents );
+
+		echo "[SUCCESS] Text domain replaced in: ", $output_path, PHP_EOL;
 	} else {
 		echo "[SKIP] No replacement needed for: ", $file->getPathname(), PHP_EOL;
 	}

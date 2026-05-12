@@ -38,6 +38,6 @@
 		"pronamic/wp-coding-standards": "^2.3"
 	},
 	"scripts": {
-		"test": "bin/wptdr --dir=tests --search=old --search=older --search=block-development-examples --replace=new --exclude=exclude"
+		"test": "bin/wptdr --dir=tests/input --output=tests/output --search=old --search=older --search=block-development-examples --replace=new --exclude=exclude"
 	}
 }
