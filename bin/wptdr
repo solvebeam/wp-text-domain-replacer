@@ -352,15 +352,14 @@ foreach ( $php_files as $file ) {
 	$old_tokens = $parser->getTokens();
 
 	$traverser = new PhpParser\NodeTraverser(
-		new PhpParser\NodeVisitor\CloningVisitor(),
-		new PhpParser\NodeVisitor\NameResolver( null, [ 'replaceNodes' => false ] )
+		new PhpParser\NodeVisitor\CloningVisitor()
 	);
 	$new_stmts = $traverser->traverse( $old_stmts );
 
 	$modifier = new PhpParser\NodeTraverser();
 
 	$modifier->addVisitor(
-		new class( $search, $replace, $php_functions ) extends PhpParser\NodeVisitorAbstract {
+		new class($search, $replace, $php_functions) extends PhpParser\NodeVisitorAbstract {
 			/**
 			 * Search domains.
 			 *
@@ -402,39 +401,31 @@ foreach ( $php_files as $file ) {
 			 * @return void
 			 */
 			public function enterNode( PhpParser\Node $node ) {
-				if ( ! $node instanceof PhpParser\Node\Expr\FuncCall ) {
+				if ( !$node instanceof PhpParser\Node\Expr\FuncCall ) {
 					return;
 				}
 
-				if ( ! $node->name instanceof PhpParser\Node\Name ) {
+				if ( !$node->name instanceof PhpParser\Node\Name ) {
 					return;
 				}
 
-				// Use the resolved name from the NameResolver visitor.
-				// Unqualified function names in a namespace cannot be statically
-				// resolved and will not have a resolvedName attribute.
-				$resolved_name = $node->name->getAttribute( 'resolvedName' );
+				// Directly use the unqualified name as global fallback.
+				$func_name = $node->name->toLowerString();
 
-				if ( ! $resolved_name instanceof PhpParser\Node\Name ) {
+				if ( ! isset( $this->functions[$func_name] ) ) {
 					return;
 				}
 
-				$func_name = $resolved_name->toLowerString();
-
-				if ( ! isset( $this->functions[ $func_name ] ) ) {
-					return;
-				}
-
-				$position  = $this->functions[ $func_name ]['position'];
+				$position = $this->functions[$func_name]['position'];
 				$arg_index = $position - 1;
 
-				if ( ! isset( $node->args[ $arg_index ] ) ) {
+				if ( ! isset( $node->args[$arg_index] ) ) {
 					return;
 				}
 
-				$arg = $node->args[ $arg_index ];
+				$arg = $node->args[$arg_index];
 
-				if ( ! $arg->value instanceof PhpParser\Node\Scalar\String_ ) {
+				if ( !$arg->value instanceof PhpParser\Node\Scalar\String_ ) {
 					return;
 				}
 
